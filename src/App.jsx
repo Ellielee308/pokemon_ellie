@@ -1,7 +1,9 @@
+import { Outlet } from "react-router-dom"
+
 function App() {
   return (
     <>
-      <div className="bg-pink-100 font-bold">Pokémon Encyclopedia</div>
+      <Outlet />
     </>
   )
 }
