@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { ArrowNext, ArrowPrevious } from "../../assets/icon";
 
 function DigimonList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialPage = parseInt(searchParams.get("page")) || 1;
   const [pagination, setPagination] = useState(initialPage);
   const [digimonItems, setDigimonItems] = useState([]);
-  const [maxPage, setMaxPage] = useState(1); // 最大頁數
+  const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     async function fetchDigimonData() {
@@ -59,13 +60,13 @@ function DigimonList() {
             Digimon Encyclopedia
           </h1>
           <Link
-            to="pokemon?page=1"
+            to="/pokemon?page=1"
             className="font-oxanium hidden h-6 rounded-2xl bg-white px-4 text-sm font-semibold leading-6 hover:bg-slate-100 md:block"
           >
-            Go to Pokémon Encyclopedia
+            Go to Pokémon Encyclopedia ➜
           </Link>
           <Link
-            to="pokemon?page=1"
+            to="/pokemon?page=1"
             className="font-oxanium h-6 rounded-2xl bg-white px-2 text-xs font-semibold leading-6 hover:bg-slate-100 md:hidden"
           >
             Pokémon ➜
@@ -138,37 +139,3 @@ function DigimonList() {
 }
 
 export default DigimonList;
-
-const ArrowPrevious = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="size-6"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M15.75 19.5 8.25 12l7.5-7.5"
-    />
-  </svg>
-);
-
-const ArrowNext = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="size-6"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-    />
-  </svg>
-);
