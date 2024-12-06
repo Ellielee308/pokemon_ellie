@@ -49,7 +49,7 @@ function DigimonDetails() {
           <div className="flex flex-col items-center md:w-[768px]">
             <div className="flex flex-col items-center md:w-[768px] md:flex-row">
               <img
-                className="rounded-full md:w-1/2"
+                className="aspect-square rounded-full object-cover md:w-1/2"
                 src={
                   digimonData.images
                     ? digimonData.images[0].href
