@@ -3,7 +3,7 @@ function PokemonDetails() {
     <>
       <div>List</div>
     </>
-  )
+  );
 }
 
-export default PokemonDetails
+export default PokemonDetails;

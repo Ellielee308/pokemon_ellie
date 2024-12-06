@@ -3,7 +3,7 @@ function DigimonDetails() {
     <>
       <div>List</div>
     </>
-  )
+  );
 }
 
-export default DigimonDetails
+export default DigimonDetails;
