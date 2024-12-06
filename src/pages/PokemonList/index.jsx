@@ -57,7 +57,7 @@ function PokemonList() {
   return (
     <div className="w-screen">
       <div className="flex h-14 justify-center bg-orange-600 px-2 sm:px-12">
-        <div className="flex w-full items-center justify-between md:w-[880px]">
+        <div className="flex w-full items-center justify-between md:w-[768px]">
           <h1 className="font-oxanium text-xl font-bold text-white">
             Pokémon Encyclopedia
           </h1>
@@ -87,7 +87,7 @@ function PokemonList() {
             </button>
           </div>
         ) : (
-          <div className="mb-12 grid grid-cols-2 gap-2 px-2 sm:gap-8 sm:px-12 md:w-[880px]">
+          <div className="mb-12 grid grid-cols-2 gap-2 px-2 sm:gap-8 sm:px-12 md:w-[768px]">
             {pokemonItems.map((item) => (
               <div
                 key={item.id}

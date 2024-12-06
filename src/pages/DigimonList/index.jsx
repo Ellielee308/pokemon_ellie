@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowNext, ArrowPrevious } from "../../assets/icon";
+import ImagePlaceholder from "../../assets/no-image.png";
 
 function DigimonList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,7 +60,7 @@ function DigimonList() {
   return (
     <div className="w-screen">
       <div className="flex h-14 justify-center bg-red-600 px-2 sm:px-12">
-        <div className="flex w-full items-center justify-between md:w-[880px]">
+        <div className="flex w-full items-center justify-between md:w-[768px]">
           <h1 className="font-oxanium text-xl font-bold text-white">
             Digimon Encyclopedia
           </h1>
@@ -91,20 +92,21 @@ function DigimonList() {
             </button>
           </div>
         ) : (
-          <div className="mb-12 grid grid-cols-2 gap-2 px-2 sm:gap-8 sm:px-12 md:w-[880px]">
+          <div className="mb-12 grid grid-cols-2 gap-2 px-2 sm:gap-8 sm:px-12 md:w-[768px]">
             {digimonItems.map((item) => (
-              <div
+              <Link
+                to={`/digimon/${item.id}`}
                 key={item.id}
                 className="flex flex-col items-center justify-start rounded-lg bg-white px-2 py-4 md:h-80 md:w-full md:py-8"
               >
                 <img
-                  src={item.image}
+                  src={item.image ? item.image : ImagePlaceholder}
                   className="aspect-square w-1/2 object-contain"
                 />
                 <h3 className="font-oxanium mt-8 text-center text-base font-bold sm:text-lg md:text-xl">
                   {item.name}
                 </h3>
-              </div>
+              </Link>
             ))}
           </div>
         )}
