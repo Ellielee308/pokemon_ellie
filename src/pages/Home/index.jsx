@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="flex h-screen w-screen flex-col items-center bg-zinc-800 px-12 py-36">
       <h1 className="font-oxanium text-2xl font-bold text-white">

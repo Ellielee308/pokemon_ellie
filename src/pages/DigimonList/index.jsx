@@ -47,6 +47,10 @@ function DigimonList() {
     fetchDigimonData();
   }, [pagination]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pagination]);
+
   const handlePaginationChange = (newPage) => {
     setPagination(newPage);
     setSearchParams({ page: newPage });
@@ -80,8 +84,7 @@ function DigimonList() {
             <button
               className="rounded-2xl bg-white px-4 py-1 text-xl text-zinc-500 hover:cursor-pointer hover:bg-slate-200"
               onClick={() => {
-                setPagination(1);
-                setSearchParams({ page: 1 });
+                handlePaginationChange(1);
               }}
             >
               Go to First Page

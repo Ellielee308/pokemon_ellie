@@ -46,6 +46,10 @@ function PokemonList() {
     fetchPekomonData();
   }, [currentPage]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   const handlePaginationChange = (newPage) => {
     setSearchParams({ page: newPage });
   };
@@ -77,9 +81,7 @@ function PokemonList() {
             <p className="mb-4 text-3xl">Oops! No Pokémon available.</p>
             <button
               className="rounded-2xl bg-white px-4 py-1 text-xl text-zinc-500 hover:cursor-pointer hover:bg-slate-200"
-              onClick={() => {
-                setSearchParams({ page: 1 });
-              }}
+              onClick={() => handlePaginationChange(1)}
             >
               Go to First Page
             </button>
