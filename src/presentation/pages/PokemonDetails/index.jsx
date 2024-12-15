@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ImagePlaceholder from "../../assets/no-image.png";
+import { getPokemonDetails } from "../../../application/useCases/getPokemonDetails";
+import ImagePlaceholder from "../../../assets/no-image.png";
 import PokemonDetailsHeader from "../../components/PokemonDetailsHeader";
 
 function PokemonDetails() {
@@ -9,20 +10,19 @@ function PokemonDetails() {
   const [pokemonData, setPokemonData] = useState({});
 
   useEffect(() => {
-    async function fetchPokemonData(id) {
+    async function loadPokemonData(id) {
       try {
-        const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-        const response = await fetch(url);
-        const newPokemonData = await response.json();
-        console.log(newPokemonData);
-        setPokemonData(newPokemonData);
+        setLoading(true);
+        const pokemonDetails = await getPokemonDetails(id);
+        setPokemonData(pokemonDetails);
       } catch (error) {
         console.log("Failed to fetch specific Pokemon data:", error.message);
+        setPokemonData({});
       } finally {
         setLoading(false);
       }
     }
-    fetchPokemonData(id);
+    loadPokemonData(id);
   }, [id]);
 
   useEffect(() => {
@@ -64,11 +64,7 @@ function PokemonDetails() {
             <div className="flex flex-col items-center sm:flex-row md:w-[768px]">
               <img
                 className="w-full rounded-full sm:w-1/2"
-                src={
-                  pokemonData.sprites
-                    ? pokemonData.sprites.front_default
-                    : ImagePlaceholder
-                }
+                src={pokemonData.images ? pokemonData.images : ImagePlaceholder}
               />
               <div className="flex w-[240px] flex-col sm:ml-12 sm:w-1/2">
                 <h2 className="mt-6 self-center font-oxanium text-3xl font-bold capitalize text-white sm:self-start">

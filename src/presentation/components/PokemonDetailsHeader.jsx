@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowGoBack } from "../assets/icon";
+import { ArrowGoBack } from "../../assets/icon";
 
-export default function DigimonDetailsHeader({ id }) {
+export default function PokemonDetailsHeader({ id }) {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -9,7 +9,7 @@ export default function DigimonDetailsHeader({ id }) {
   };
 
   return (
-    <div className="flex h-14 justify-center bg-red-600 px-2 sm:px-12">
+    <div className="flex h-14 justify-center bg-orange-600 px-2 sm:px-12">
       <div className="flex w-full items-center justify-between md:w-[768px]">
         <div className="flex">
           <button
@@ -19,7 +19,7 @@ export default function DigimonDetailsHeader({ id }) {
             <ArrowGoBack />
           </button>
           <h1 className="font-oxanium text-xl font-bold text-white">
-            Digimon Encyclopedia
+            Pokémon Encyclopedia
           </h1>
         </div>
         <p className="font-oxanium text-xl font-bold text-white">

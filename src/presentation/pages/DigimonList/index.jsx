@@ -1,68 +1,49 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowNext, ArrowPrevious } from "../../assets/icon";
-import ImagePlaceholder from "../../assets/no-image.png";
-import { PokemonListHeader } from "../../components/PokemonListHeader";
+import { getDigimonList } from "../../../application/useCases/getDigimonList";
+import { ArrowNext, ArrowPrevious } from "../../../assets/icon";
+import { DigimonListHeader } from "../../components/DigimonListHeader";
+import ImagePlaceholder from "../../../assets/no-image.png";
 
-function PokemonList() {
+function DigimonList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const currentPage = parseInt(searchParams.get("page")) || 1;
-  const [pokemonItems, setPokemonItems] = useState([]);
+  const initialPage = parseInt(searchParams.get("page")) || 1;
+  const [pagination, setPagination] = useState(initialPage);
+  const [digimonItems, setDigimonItems] = useState([]);
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
-    async function fetchPekomonData() {
+    async function loadDigimonList() {
       try {
-        const limit = 10;
-        const offset = (currentPage - 1) * limit;
-
-        const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`
-        );
-        const data = await response.json();
-        console.log(data);
-
-        setMaxPage(Math.ceil(data.count / limit));
-
-        const newPokemonItems = await Promise.all(
-          data.results.map(async (item) => {
-            const detailResponse = await fetch(item.url);
-            const detailData = await detailResponse.json();
-
-            return {
-              name: item.name,
-              image: detailData.sprites.front_default,
-              url: item.url,
-              id: detailData.id,
-            };
-          })
-        );
-        console.log(newPokemonItems);
-        setPokemonItems(newPokemonItems);
+        setLoading(true);
+        const { digimonList, totalPages } = await getDigimonList(pagination);
+        setDigimonItems(digimonList);
+        setMaxPage(totalPages);
       } catch (error) {
-        console.error("Failed to fetch Pokemon data:", error);
-        setPokemonItems([]);
+        console.error("Failed to fetch Digimon data:", error.message);
+        setDigimonItems([]);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchPekomonData();
-  }, [currentPage]);
+    loadDigimonList();
+  }, [pagination]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentPage]);
+  }, [pagination]);
 
   const handlePaginationChange = (newPage) => {
+    setPagination(newPage);
     setSearchParams({ page: newPage });
   };
 
   if (loading)
     return (
       <div className="w-screen">
-        <PokemonListHeader />
+        <DigimonListHeader />
         <div className="flex h-fit min-h-[calc(100vh-56px)] w-full flex-col items-center justify-between bg-zinc-800 py-2 md:py-8">
           <div className="flex flex-grow flex-col items-center justify-center font-oxanium text-3xl text-white">
             Loading...
@@ -72,23 +53,25 @@ function PokemonList() {
     );
   return (
     <div className="w-screen">
-      <PokemonListHeader />
+      <DigimonListHeader />
       <div className="flex h-fit min-h-[calc(100vh-56px)] w-full flex-col items-center justify-between bg-zinc-800 py-3 md:py-8">
-        {pokemonItems.length === 0 ? (
+        {digimonItems.length === 0 ? (
           <div className="flex flex-grow flex-col items-center justify-center font-oxanium text-white">
-            <p className="mb-4 text-3xl">Oops! No Pokémon available.</p>
+            <p className="mb-4 text-3xl">Oops! No Digimons available.</p>
             <button
               className="rounded-2xl bg-white px-4 py-1 text-xl text-zinc-500 hover:cursor-pointer hover:bg-slate-200"
-              onClick={() => handlePaginationChange(1)}
+              onClick={() => {
+                handlePaginationChange(1);
+              }}
             >
               Go to First Page
             </button>
           </div>
         ) : (
           <div className="mb-12 grid w-full grid-cols-2 gap-2 px-2 sm:gap-8 sm:px-12 md:w-[768px]">
-            {pokemonItems.map((item) => (
+            {digimonItems.map((item) => (
               <Link
-                to={`/pokemon/${item.id}`}
+                to={`/digimon/${item.id}`}
                 key={item.id}
                 className="flex w-full flex-col items-center justify-start rounded-lg bg-white px-2 py-4 transition-colors hover:bg-slate-100 md:h-80 md:w-full md:py-8"
               >
@@ -106,27 +89,27 @@ function PokemonList() {
         <div className="flex items-center gap-12">
           <button
             className={`text-white transition-colors hover:cursor-pointer hover:text-slate-400 ${
-              currentPage <= 1
+              pagination <= 1
                 ? "text-gray-700 hover:cursor-not-allowed hover:text-gray-700"
                 : ""
             }`}
-            onClick={() => handlePaginationChange(Math.max(currentPage - 1, 1))}
+            onClick={() => handlePaginationChange(Math.max(pagination - 1, 1))}
           >
             <ArrowPrevious />
           </button>
           <p className="text-bold font-oxanium text-2xl text-white">
-            {currentPage}
+            {pagination}
           </p>
           <button
             className={`text-white transition-colors hover:cursor-pointer hover:text-slate-400 ${
-              currentPage >= maxPage
+              pagination >= maxPage
                 ? "text-gray-700 hover:cursor-not-allowed hover:text-gray-700"
                 : ""
             }`}
             onClick={() =>
-              handlePaginationChange(Math.min(currentPage + 1, maxPage))
+              handlePaginationChange(Math.min(pagination + 1, maxPage))
             }
-            disabled={currentPage >= maxPage}
+            disabled={pagination >= maxPage}
           >
             <ArrowNext />
           </button>
@@ -136,4 +119,4 @@ function PokemonList() {
   );
 }
 
-export default PokemonList;
+export default DigimonList;

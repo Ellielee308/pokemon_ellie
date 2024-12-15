@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ImagePlaceholder from "../../assets/no-image.png";
+import { getDigimonDetails } from "../../../application/useCases/getDigimonDetails";
 import DigimonDetailsHeader from "../../components/DigimonDetailsHeader";
+import ImagePlaceholder from "../../../assets/no-image.png";
 
 function DigimonDetails() {
   const { id } = useParams();
@@ -9,20 +10,19 @@ function DigimonDetails() {
   const [digimonData, setDigimonData] = useState({});
 
   useEffect(() => {
-    async function fetchDigimonData(id) {
+    async function loadingDigimonDetails(id) {
       try {
-        const url = `https://digi-api.com/api/v1/digimon/${id}`;
-        const response = await fetch(url);
-        const newDigimonData = await response.json();
-        console.log(newDigimonData);
-        setDigimonData(newDigimonData);
+        setLoading(true);
+        const digimonDetails = await getDigimonDetails(id);
+        setDigimonData(digimonDetails);
       } catch (error) {
         console.log("Failed to fetch specific Digimon data:", error.message);
+        setDigimonData({});
       } finally {
         setLoading(false);
       }
     }
-    fetchDigimonData(id);
+    loadingDigimonDetails(id);
   }, [id]);
 
   useEffect(() => {
@@ -50,11 +50,7 @@ function DigimonDetails() {
             <div className="flex flex-col items-center md:w-[768px] md:flex-row">
               <img
                 className="aspect-square rounded-full object-cover md:w-1/2"
-                src={
-                  digimonData.images
-                    ? digimonData.images[0].href
-                    : ImagePlaceholder
-                }
+                src={digimonData.images ? digimonData.images : ImagePlaceholder}
               />
               <div className="flex flex-col md:ml-12 md:w-1/2">
                 <h2 className="mt-6 self-center font-oxanium text-3xl font-bold capitalize text-white md:self-start">

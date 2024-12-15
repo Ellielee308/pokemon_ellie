@@ -3,11 +3,11 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-import DigimonDetails from "./pages/DigimonDetails";
-import DigimonList from "./pages/DigimonList";
-import Home from "./pages/Home/index.jsx";
-import PokemonDetails from "./pages/PokemonDetails";
-import PokemonList from "./pages/PokemonList";
+import DigimonDetails from "./presentation/pages/DigimonDetails";
+import DigimonList from "./presentation/pages/DigimonList";
+import Home from "./presentation/pages/Home/index.jsx";
+import PokemonDetails from "./presentation/pages/PokemonDetails";
+import PokemonList from "./presentation/pages/PokemonList";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
